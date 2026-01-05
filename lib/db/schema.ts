@@ -1,5 +1,5 @@
 import { pgTable, text, varchar, integer, boolean, timestamp, decimal, json, serial, jsonb } from "drizzle-orm/pg-core"
-import type { InferSelectModel, InferInsertModel } from "drizzle-orm"
+import { type InferSelectModel, type InferInsertModel, relations } from "drizzle-orm"
 
 // Admin Users Table
 export const adminUsers = pgTable("admin_users", {
@@ -52,7 +52,7 @@ export const services = pgTable("services", {
 export const packages = pgTable("packages", {
   id: serial("id").primaryKey(),
   serviceId: integer("service_id").references(() => services.id, { onDelete: "cascade" }).notNull(),
-  title: text("title").notNull(),
+  name: text("name").notNull(),
   description: text("description").notNull(),
   image: text("image").notNull(),
   bulletPoints: jsonb("bulletPoints").notNull().default([]),
@@ -118,7 +118,18 @@ export const seoPages = pgTable("seo_pages", {
   schema: json("schema"),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
-})
+});
+
+export const servicesRelations = relations(services, ({ many }) => ({
+  packages: many(packages)
+}));
+
+export const packagesRelations = relations(packages, ({ one }) => ({
+  services: one(services, {
+    fields: [packages.serviceId],
+    references: [services.id],
+  })
+}))
 
 // Type definitions
 export type AdminUser = InferSelectModel<typeof adminUsers>

@@ -14,22 +14,23 @@ interface PackageData {
     name: string
     description: string
     bulletPoints: string[]
-    badge?: string
+    serviceId?: number
 }
 
 interface PackageFormProps {
     onSubmit: (data: PackageData) => void | Promise<void>
     isLoading?: boolean
     initialData?: PackageData
+    serviceId: number
 }
 
-export function PackageForm({ onSubmit, isLoading = false, initialData }: PackageFormProps) {
+export function PackageForm({ onSubmit, isLoading = false, initialData, serviceId }: PackageFormProps) {
     const [formData, setFormData] = useState<PackageData>({
         image: "",
         name: "",
         description: "",
         bulletPoints: ["", ""],
-        badge: "",
+        serviceId: serviceId,
     })
 
     useEffect(() => {
@@ -97,18 +98,6 @@ export function PackageForm({ onSubmit, isLoading = false, initialData }: Packag
                     className="bg-input text-foreground"
                 />
             </div>
-
-            <div className="space-y-2">
-                <label className="block text-sm font-medium text-foreground">Badge (optional)</label>
-                <Input
-                    type="text"
-                    value={formData.badge || ""}
-                    onChange={(e) => setFormData({ ...formData, badge: e.target.value })}
-                    placeholder="e.g., Round Trip"
-                    className="bg-input text-foreground"
-                />
-            </div>
-
             <div className="space-y-2">
                 <label className="block text-sm font-medium text-foreground">Description</label>
                 <Textarea
