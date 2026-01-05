@@ -44,7 +44,8 @@ export function PackageDialog({
         setIsLoading(true)
         try {
             if (isEditMode) {
-                const response = await fetch(`/api/admin/services/${serviceId}/packages/${editingId}`, {
+                console.log('edit packages')
+                const response = await fetch(`/api/admin/packages/${editingId}`, {
                     method: "PUT",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(data),
@@ -57,7 +58,8 @@ export function PackageDialog({
                     description: "Package updated successfully",
                 })
             } else {
-                const response = await fetch(`/api/admin/services/${serviceId}/packages`, {
+                console.log('create packages')
+                const response = await fetch(`/api/admin/packages`, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(data),
@@ -98,14 +100,14 @@ export function PackageDialog({
             <DialogTrigger asChild>
                 <Button size="sm" variant="outline" className="gap-2 bg-transparent">
                     <Plus className="w-4 h-4" />
-                    Add Package {title}
+                    Add Package
                 </Button>
             </DialogTrigger>
             <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
                 <DialogHeader>
                     <DialogTitle>{isEditMode ? `Edit Package (${title})` : `Create New Package (${title})`}</DialogTitle>
                 </DialogHeader>
-                <PackageForm onSubmit={handleSubmit} isLoading={isLoading} initialData={editingPackage} />
+                <PackageForm onSubmit={handleSubmit} isLoading={isLoading} serviceId={serviceId as number} initialData={editingPackage} />
             </DialogContent>
         </Dialog>
     )

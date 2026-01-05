@@ -42,11 +42,11 @@ export function FeatureCard({
     const [editingPackageId, setEditingPackageId] = useState<number | null>(null)
     const { toast } = useToast()
 
-    const handleDeletePackage = async (packageId: number) => {
+    const handleDeletePackage = async (id: number) => {
         if (!confirm("Are you sure you want to delete this package?")) return
 
         try {
-            const response = await fetch(`/api/admin/services/${id}/packages/${packageId}`, {
+            const response = await fetch(`/api/admin/packages/${id}`, {
                 method: "DELETE",
             })
 
@@ -101,7 +101,7 @@ export function FeatureCard({
                                     onPackageAdded={onRefresh || (() => { })}
                                     editingId={editingPackageId}
                                     title={title}
-                                    editingPackage={packages.find((p) => p.id === editingPackageId)}
+                                    editingPackage={packages?.find((p) => p?.id === editingPackageId)}
                                     onEditComplete={handleEditPackageComplete}
                                 />
                             </div>

@@ -36,24 +36,8 @@ export default function Home() {
       setLoading(true)
       const response = await fetch("/api/admin/services")
       if (!response.ok) throw new Error("Failed to fetch services")
-      const data = await response.json()
-
-      const servicesWithPackages = await Promise.all(
-        data?.data.map(async (service: FeatureCardData) => {
-          try {
-            const packagesResponse = await fetch(`/api/admin/services/${service.id}/packages`)
-            if (packagesResponse.ok) {
-              const packages = await packagesResponse.json()
-              return { ...service, packages }
-            }
-          } catch (error) {
-            console.error(`Error fetching packages for service ${service.id}:`, error)
-          }
-          return { ...service, packages: [] }
-        }),
-      )
-
-      setCards(servicesWithPackages)
+      const data = await response.json();
+      setCards(data.data)
     } catch (error) {
       console.error("Error fetching services:", error)
       toast({

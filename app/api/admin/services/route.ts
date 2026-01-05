@@ -1,12 +1,16 @@
 import { type NextRequest, NextResponse } from "next/server"
 import { db } from "@/lib/db"
 import { services } from "@/lib/db/schema"
-import { desc } from "drizzle-orm"
 import { verifyAdminAuth } from "@/lib/middleware/auth"
 
 export async function GET(request: NextRequest) {
   try {
-    const data = await db.select().from(services).orderBy(desc(services.createdAt))
+    const data = await db.query.services.findMany({
+      orderBy: (services, { desc }) => [desc(services.createdAt)],
+      with: {
+        packages: true
+      }
+    })
     return NextResponse.json({ data })
   } catch (error) {
     return NextResponse.json({ error: "Failed to fetch services" }, { status: 500 })
