@@ -1,0 +1,1 @@
+DROP TABLE "seo_pages" CASCADE;

@@ -24,18 +24,6 @@ export const heroSliders = pgTable("hero_sliders", {
   updatedAt: timestamp("updated_at").defaultNow(),
 })
 
-// About Section Table
-// export const aboutSections = pgTable("about_sections", {
-//   id: serial("id").primaryKey(),
-//   title: varchar("title", { length: 255 }).notNull(),
-//   subtitle: varchar("subtitle", { length: 500 }),
-//   description: text("description").notNull(),
-//   image: varchar("image", { length: 500 }),
-//   points: json("points").$type<string[]>().default([]),
-//   createdAt: timestamp("created_at").defaultNow(),
-//   updatedAt: timestamp("updated_at").defaultNow(),
-// })
-
 // Services Table
 export const services = pgTable("services", {
   id: serial("id").primaryKey(),
@@ -104,21 +92,7 @@ export const testimonials = pgTable("testimonials", {
   updatedAt: timestamp("updated_at").defaultNow(),
 })
 
-// SEO Management Table
-export const seoPages = pgTable("seo_pages", {
-  id: serial("id").primaryKey(),
-  pagePath: varchar("page_path", { length: 255 }).unique().notNull(),
-  pageTitle: varchar("page_title", { length: 255 }).notNull(),
-  metaDescription: varchar("meta_description", { length: 160 }),
-  keywords: varchar("keywords", { length: 500 }),
-  ogTitle: varchar("og_title", { length: 255 }),
-  ogDescription: varchar("og_description", { length: 160 }),
-  ogImage: varchar("og_image", { length: 500 }),
-  canonicalUrl: varchar("canonical_url", { length: 500 }),
-  schema: json("schema"),
-  createdAt: timestamp("created_at").defaultNow(),
-  updatedAt: timestamp("updated_at").defaultNow(),
-});
+
 
 export const metadata = pgTable("metadata", {
   id: serial("id").primaryKey(),
@@ -178,6 +152,3 @@ export type NewFAQ = InferInsertModel<typeof faqs>
 
 export type Testimonial = InferSelectModel<typeof testimonials>
 export type NewTestimonial = InferInsertModel<typeof testimonials>
-
-export type SEOPage = InferSelectModel<typeof seoPages>
-export type NewSEOPage = InferInsertModel<typeof seoPages>

@@ -29,6 +29,13 @@
       "when": 1767719672755,
       "tag": "0003_majestic_shooting_star",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1767726038914,
+      "tag": "0004_powerful_wallop",
+      "breakpoints": true
     }
   ]
 }

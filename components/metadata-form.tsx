@@ -99,7 +99,7 @@ export function MetadataForm() {
                 keywords: data.keywords || [],
             })
         } catch (error) {
-            console.error("[v0] Error fetching metadata:", error)
+            console.error("Error fetching metadata:", error)
             setMessage({ type: "error", text: "Failed to load metadata" })
         } finally {
             setIsLoading(false)
@@ -150,7 +150,7 @@ export function MetadataForm() {
                 setMessage({ type: "error", text: error.error || "Failed to save metadata" })
             }
         } catch (error) {
-            console.error("[v0] Error saving metadata:", error)
+            console.error("Error saving metadata:", error)
             setMessage({ type: "error", text: "Error saving metadata" })
         } finally {
             setIsSaving(false)
