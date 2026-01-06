@@ -122,24 +122,29 @@ export const seoPages = pgTable("seo_pages", {
 
 export const metadata = pgTable("metadata", {
   id: serial("id").primaryKey(),
-  key: text("key").unique().notNull(),
-  value: text("value"),
+  siteUrl: text("site_url"),
+  titleDefault: text("title_default"),
+  titleTemplate: text("title_template"),
+  description: text("description"),
+  siteName: text("site_name"),
+  logoUrl: text("logo_url"),
+  ogTitle: text("og_title"),
+  ogDescription: text("og_description"),
+  ogImageUrl: text("og_image_url"),
+  twitterTitle: text("twitter_title"),
+  twitterDescription: text("twitter_description"),
+  canonicalUrl: text("canonical_url"),
+  category: text("category"),
+  creator: text("creator"),
+  publisher: text("publisher"),
+  keywords: json("keywords").$type<string[]>().default([]),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
-})
-
-// Keywords table
-export const keywords = pgTable("keywords", {
-  id: serial("id").primaryKey(),
-  keyword: text("keyword").notNull(),
-  createdAt: timestamp("created_at").defaultNow(),
 })
 // Types definitions
 export type Metadata = InferSelectModel<typeof metadata>
 export type NewMetadata = InferInsertModel<typeof metadata>
 
-export type Keyword = InferSelectModel<typeof keywords>
-export type NewKeyword = InferInsertModel<typeof keywords>
 
 export const servicesRelations = relations(services, ({ many }) => ({
   packages: many(packages)

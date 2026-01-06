@@ -60,7 +60,6 @@ export function HeroSection() {
       id="home"
       className="relative h-[65vh] md:h-[75vh] lg:h-[85vh] overflow-hidden mt-8 md:mt-16 bg-foreground/5"
     >
-      {/* Background Slides with optimized images */}
       {slides.map((slide, index) => (
         <div
           key={index}
@@ -77,24 +76,20 @@ export function HeroSection() {
             className="object-cover"
             sizes="100vw"
           />
-          {/* Refined gradient overlay */}
           <div className="absolute inset-0 bg-linear-to-r from-foreground/80 via-foreground/50 to-foreground/30" />
           <div className="absolute inset-0 bg-linear-to-t from-foreground/60 via-transparent to-foreground/40" />
         </div>
       ))}
 
-      {/* Decorative elements - Hide on mobile */}
       <div className="absolute top-20 left-10 w-72 h-72 bg-primary/20 rounded-full blur-[100px] animate-pulse hidden md:block" />
       <div
         className="absolute bottom-20 right-10 w-96 h-96 bg-sky/20 rounded-full blur-[120px] animate-pulse hidden md:block"
         style={{ animationDelay: "1s" }}
       />
 
-      {/* Content - Responsive padding */}
-      <div className="relative z-10 h-auto flex items-center py-12 md:py-20">
+      <div className="relative z-10 h-full flex items-center justify-start py-0 md:py-0">
         <div className="container mx-auto px-4 md:px-6 lg:px-20">
           <div className="max-w-4xl">
-            {/* Location badge - Responsive sizing */}
             <div className="overflow-hidden mb-3 md:mb-6">
               <div
                 key={`location-${currentSlide}`}
@@ -107,11 +102,10 @@ export function HeroSection() {
               </div>
             </div>
 
-            {/* Main title - Responsive text sizing */}
             <div className="overflow-hidden mb-3 md:mb-6">
               <h1
                 key={`title-${currentSlide}`}
-                className="text-2xl sm:text-4xl md:text-5xl lg:text-7xl xl:text-7xl 2xl:text-8xl font-bold text-card leading-[1.15] md:leading-[1.1] animate-fade-in-up text-balance"
+                className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl font-bold text-card leading-[1.15] md:leading-[1.1] animate-fade-in-up text-balance"
               >
                 {slides[currentSlide].title.split(" ").map((word, i) => (
                   <span
@@ -125,18 +119,16 @@ export function HeroSection() {
               </h1>
             </div>
 
-            {/* Subtitle - Responsive sizing */}
             <div className="overflow-hidden mb-4 md:mb-10">
               <p
                 key={`subtitle-${currentSlide}`}
-                className="text-xs sm:text-sm md:text-lg lg:text-xl xl:text-xl 2xl:text-2xl text-card/80 max-w-2xl animate-fade-in-up leading-relaxed"
+                className="text-xs sm:text-sm md:text-lg lg:text-xl xl:text-2xl 2xl:text-3xl text-card/80 max-w-2xl animate-fade-in-up leading-relaxed"
                 style={{ animationDelay: "300ms" }}
               >
                 {slides[currentSlide].subtitle}
               </p>
             </div>
 
-            {/* CTA Buttons - Responsive layout and sizing */}
             <div
               className="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-2 md:gap-4 animate-fade-in-up"
               style={{ animationDelay: "400ms" }}
@@ -180,7 +172,6 @@ export function HeroSection() {
         </div>
       </div>
 
-      {/* Navigation Arrows - Responsive positioning and sizing */}
       <button
         onClick={prevSlide}
         disabled={isTransitioning}
@@ -214,7 +205,6 @@ export function HeroSection() {
         <ChevronRight className="h-5 w-5 md:h-6 md:w-6" />
       </button>
 
-      {/* Slide Indicators - Responsive sizing and positioning */}
       <div className="absolute bottom-4 sm:bottom-6 md:bottom-10 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2 md:gap-3">
         {slides.map((_, index) => (
           <button
@@ -239,7 +229,6 @@ export function HeroSection() {
         ))}
       </div>
 
-      {/* Scroll hint - Hide on small screens */}
       <div className="absolute bottom-10 right-10 z-20 hidden xl:flex flex-col items-center gap-3">
         <span className="text-card/60 text-xs tracking-[0.3em] uppercase rotate-90 origin-center translate-x-6 mb-4">
           Scroll

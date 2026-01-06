@@ -1,52 +1,78 @@
-import { MetadataFormData } from "@/components/metadata-form"
+import { type NextRequest, NextResponse } from "next/server"
 import { db } from "@/lib/db"
-import { metadata as metadataTable, keywords as keywordsTable } from "@/lib/db/schema"
 import { eq } from "drizzle-orm"
+import { metadata } from "@/lib/db/schema"
 
-
-// GET metadata and keywords
 export async function GET() {
     try {
-        const metadataRecords = await db.select().from(metadataTable)
-        const keywordRecords = await db.select().from(keywordsTable)
+        const result = await db.select().from(metadata).limit(1)
 
-        return Response.json({
-            metadata: metadataRecords,
-            keywords: keywordRecords.map((k) => k.keyword),
+        if (result.length === 0) {
+            return NextResponse.json({
+                metadata: [],
+                keywords: [],
+            })
+        }
+
+        const record = result[0]
+
+        // Convert the database record to the format expected by the form
+        const metadataArray = Object.entries(record)
+            .filter(([key, value]) => !["id", "createdAt", "updatedAt", "keywords"].includes(key) && value)
+            .map(([key, value]) => ({
+                key: key,
+                value: value as string,
+            }))
+
+        return NextResponse.json({
+            metadata: metadataArray,
+            keywords: (record.keywords as string[]) || [],
         })
     } catch (error) {
-        console.error(" Error fetching metadata:", error)
-        return Response.json({ error: "Failed to fetch metadata" }, { status: 500 })
+        console.error("Error fetching metadata:", error)
+        return NextResponse.json({ error: "Failed to fetch metadata" }, { status: 500 })
     }
 }
 
-// POST save metadata
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
     try {
-        const body: MetadataFormData = await request.json()
+        const body = await request.json()
 
-        // Save metadata key-value pairs
-        const metadataUpdates = [
-            { key: "site_url", value: body.siteUrl },
-            { key: "title_default", value: body.titleDefault },
-            { key: "title_template", value: body.titleTemplate },
-            { key: "description", value: body.description },
-            { key: "site_name", value: body.siteName },
-            { key: "logo_url", value: body.logoUrl },
-            { key: "og_title", value: body.ogTitle },
-            { key: "og_description", value: body.ogDescription },
-            { key: "og_image_url", value: body.ogImageUrl },
-            { key: "twitter_title", value: body.twitterTitle },
-            { key: "twitter_description", value: body.twitterDescription },
-            { key: "canonical_url", value: body.canonicalUrl },
-            { key: "category", value: body.category },
-            { key: "creator", value: body.creator },
-            { key: "publisher", value: body.publisher },
-        ]
+        // Convert form data to database record format
+        const dbRecord = {
+            siteUrl: body.siteUrl || null,
+            titleDefault: body.titleDefault || null,
+            titleTemplate: body.titleTemplate || null,
+            description: body.description || null,
+            siteName: body.siteName || null,
+            logoUrl: body.logoUrl || null,
+            ogTitle: body.ogTitle || null,
+            ogDescription: body.ogDescription || null,
+            ogImageUrl: body.ogImageUrl || null,
+            twitterTitle: body.twitterTitle || null,
+            twitterDescription: body.twitterDescription || null,
+            canonicalUrl: body.canonicalUrl || null,
+            category: body.category || null,
+            creator: body.creator || null,
+            publisher: body.publisher || null,
+            keywords: body.keywords || [],
+            updatedAt: new Date(),
+        }
 
-        return Response.json({ message: "Metadata saved successfully" })
+        // Check if metadata already exists
+        const existing = await db.select().from(metadata).limit(1)
+
+        if (existing.length > 0) {
+            await db.update(metadata).set(dbRecord).where(eq(metadata.id, existing[0].id))
+
+            return NextResponse.json({ message: "Metadata updated successfully", id: existing[0].id }, { status: 200 })
+        } else {
+            const result = await db.insert(metadata).values(dbRecord).returning({ id: metadata.id })
+
+            return NextResponse.json({ message: "Metadata saved successfully", id: result[0].id }, { status: 201 })
+        }
     } catch (error) {
-        console.error(" Error saving metadata:", error)
-        return Response.json({ error: "Failed to save metadata" }, { status: 500 })
+        console.error("Error saving metadata:", error)
+        return NextResponse.json({ error: "Failed to save metadata" }, { status: 500 })
     }
 }
