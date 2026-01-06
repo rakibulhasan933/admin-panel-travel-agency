@@ -15,7 +15,7 @@ export async function GET() {
             keywords: keywordRecords.map((k) => k.keyword),
         })
     } catch (error) {
-        console.error("[v0] Error fetching metadata:", error)
+        console.error(" Error fetching metadata:", error)
         return Response.json({ error: "Failed to fetch metadata" }, { status: 500 })
     }
 }
@@ -44,25 +44,9 @@ export async function POST(request: Request) {
             { key: "publisher", value: body.publisher },
         ]
 
-        for (const item of metadataUpdates) {
-            await db
-                .update(metadataTable)
-                .set({ value: item.value, updatedAt: new Date() })
-                .where(eq(metadataTable.key, item.key))
-        }
-
-        await db.delete(keywordsTable)
-        if (body.keywords.length > 0) {
-            for (const keyword of body.keywords) {
-                if (keyword.trim()) {
-                    await db.insert(keywordsTable).values({ keyword: keyword.trim() })
-                }
-            }
-        }
-
         return Response.json({ message: "Metadata saved successfully" })
     } catch (error) {
-        console.error("[v0] Error saving metadata:", error)
+        console.error(" Error saving metadata:", error)
         return Response.json({ error: "Failed to save metadata" }, { status: 500 })
     }
 }

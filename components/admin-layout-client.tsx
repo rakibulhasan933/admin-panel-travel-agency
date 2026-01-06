@@ -11,13 +11,10 @@ import type { LucideIcon } from "lucide-react"
 import {
     LayoutDashboard,
     ImageIcon,
-    FileText,
     Package,
     MessageSquare,
-    Settings,
     BookOpen,
     Star,
-    Contact,
 } from "lucide-react"
 
 interface NavItem {
@@ -34,12 +31,9 @@ const navItems = [
     { label: "Dashboard", icon: LayoutDashboard, href: "/admin/dashboard" },
     { label: "Hero Slider", icon: ImageIcon, href: "/admin/hero-slider" },
     { label: "Services", icon: Package, href: "/admin/services" },
-    { label: "Packages", icon: Package, href: "/admin/packages" },
     { label: "FAQ", icon: MessageSquare, href: "/admin/faq" },
     { label: "Blog", icon: BookOpen, href: "/admin/blog" },
     { label: "Testimonials", icon: Star, href: "/admin/testimonials" },
-    { label: "Contact Messages", icon: Contact, href: "/admin/contact-messages" },
-    { label: "SEO Management", icon: Settings, href: "/admin/seo" },
 ]
 
 export default function AdminLayoutClient({ children }: AdminLayoutClientProps) {

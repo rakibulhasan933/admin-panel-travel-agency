@@ -5,7 +5,7 @@ const IMGBB_API_KEY = process.env.IMGBB_API_KEY
 export async function POST(request: NextRequest) {
   try {
     if (!IMGBB_API_KEY) {
-      console.error("[v0] IMGBB_API_KEY not configured")
+      console.error(" IMGBB_API_KEY not configured")
       return NextResponse.json(
         { error: "Image service not configured. Please add IMGBB_API_KEY to environment variables." },
         { status: 500 },
@@ -44,7 +44,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ url: imageUrl, success: true })
   } catch (error) {
-    console.error("[v0] Upload error:", error)
+    console.error(" Upload error:", error)
     return NextResponse.json({ error: "Upload failed" }, { status: 500 })
   }
 }

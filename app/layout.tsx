@@ -81,7 +81,6 @@ export const metadata: Metadata = {
     // yandex: "your-yandex-verification-code",
   },
   category: "travel",
-  generator: "v0.app",
 }
 
 export const viewport: Viewport = {
