@@ -278,13 +278,7 @@ export function MetadataForm() {
                     <span className="text-sm font-medium text-center">
                         {s === 1 ? "Basic Info" : s === 2 ? "SEO Settings" : "Social Media"}
                     </span>
-                    {s < 3 && (
-                        <div
-                            className={`hidden md:block absolute w-24 h-1 mt-5 transition-all ${s < step ? "bg-accent" : "bg-neutral-200"
-                                }`}
-                            style={{ marginLeft: "2rem" }}
-                        />
-                    )}
+
                 </div>
             ))}
         </div>
@@ -326,7 +320,7 @@ export function MetadataForm() {
             {/* Step 1: Basic Info */}
             {currentStep === 1 && (
                 <Card className="border-2 border-primary/20 shadow-lg">
-                    <CardHeader className="bg-gradient-to-r from-primary/5 to-accent/5">
+                    <CardHeader className="bg-linear-to-r from-primary/5 to-accent/5">
                         <CardTitle className="text-2xl">Basic Information</CardTitle>
                         <CardDescription>Let's start with your site's essential details</CardDescription>
                     </CardHeader>

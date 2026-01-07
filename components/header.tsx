@@ -69,7 +69,7 @@ export function Header() {
           <div
             className={cn("relative w-auto h-10 md:h-14 lg:h-14 transition-all duration-500 overflow-hidden shrink-0")}
           >
-            <Image
+            {/* <Image
               src="/logo.png"
               alt="Mumo Travels & Tours Logo"
               className="object-contain h-full w-auto"
@@ -77,7 +77,7 @@ export function Header() {
               width={200}
               priority
               sizes="(max-width: 768px) 160px, (max-width: 1024px) 192px, 224px"
-            />
+            /> */}
           </div>
         </Link>
 
