@@ -19,7 +19,6 @@ export async function POST(request: NextRequest) {
 
     try {
         const body = await request.json()
-        console.log({ body })
         const result = await db.insert(packages).values(body).returning()
         return NextResponse.json({ data: result[0] })
     } catch (error) {

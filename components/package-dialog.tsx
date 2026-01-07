@@ -44,7 +44,6 @@ export function PackageDialog({
         setIsLoading(true)
         try {
             if (isEditMode) {
-                console.log('edit packages')
                 const response = await fetch(`/api/admin/packages/${editingId}`, {
                     method: "PUT",
                     headers: { "Content-Type": "application/json" },
@@ -58,7 +57,6 @@ export function PackageDialog({
                     description: "Package updated successfully",
                 })
             } else {
-                console.log('create packages')
                 const response = await fetch(`/api/admin/packages`, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
