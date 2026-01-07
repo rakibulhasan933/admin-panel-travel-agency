@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react"
 import { ServicesDialog } from "@/components/services-dialog"
 import { FeatureCard } from "@/components/feature-card"
-import { Loader2 } from "lucide-react"
+import { Loader2, Sparkles } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
 
 interface Package {
@@ -25,7 +25,7 @@ interface FeatureCardData {
   packages?: Package[]
 }
 
-export default function Home() {
+export default function ServicesPage() {
   const [cards, setCards] = useState<FeatureCardData[]>([])
   const [loading, setLoading] = useState(true)
   const [editingId, setEditingId] = useState<number | null>(null)
@@ -36,7 +36,7 @@ export default function Home() {
       setLoading(true)
       const response = await fetch("/api/admin/services")
       if (!response.ok) throw new Error("Failed to fetch services")
-      const data = await response.json();
+      const data = await response.json()
       setCards(data.data)
     } catch (error) {
       console.error("Error fetching services:", error)
@@ -89,14 +89,24 @@ export default function Home() {
   }
 
   return (
-    <main className="min-h-screen bg-background  px-2">
-      <div className="max-w-6xl mx-auto">
-        <div className="flex justify-between gap-12">
-          <div className="mb-2">
-            <h1 className="text-2xl font-bold mb-2 text-foreground">Services</h1>
+    <main className="min-h-screen bg-background px-4 md:px-6 py-8">
+      <div className="max-w-7xl mx-auto">
+        <div className="mb-8 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+          <div className="space-y-2">
+            <div className="flex items-center gap-3">
+              <div className="p-2 bg-primary/10 rounded-lg">
+                <Sparkles className="w-6 h-6 text-primary" />
+              </div>
+              <div>
+                <h1 className="text-3xl md:text-4xl font-bold text-foreground">Services Management</h1>
+                <p className="text-muted-foreground text-sm md:text-base mt-1">
+                  Create and manage travel services and packages
+                </p>
+              </div>
+            </div>
           </div>
 
-          <div className="mb-2 flex justify-start">
+          <div className="shrink-0">
             <ServicesDialog
               onServiceAdded={fetchServices}
               editingId={editingId}
@@ -106,27 +116,41 @@ export default function Home() {
           </div>
         </div>
 
+        {/* Loading State */}
         {loading ? (
-          <div className="flex justify-center items-center py-12">
-            <Loader2 className="w-8 h-8 animate-spin text-muted-foreground" />
+          <div className="flex justify-center items-center py-20">
+            <div className="text-center space-y-3">
+              <Loader2 className="w-10 h-10 animate-spin text-primary mx-auto" />
+              <p className="text-muted-foreground">Loading services...</p>
+            </div>
           </div>
         ) : cards.length > 0 ? (
           <div>
             <div className="grid grid-cols-1 gap-6">
-              {cards.map((card) => (
-                <FeatureCard
-                  key={card.id}
-                  {...card}
-                  onDelete={handleRemoveCard}
-                  onEdit={handleEditCard}
-                  onRefresh={fetchServices}
-                />
+              {cards.map((card, index) => (
+                <div key={card.id} className="animate-fade-in-up" style={{ animationDelay: `${index * 0.1}s` }}>
+                  <FeatureCard
+                    {...card}
+                    onDelete={handleRemoveCard}
+                    onEdit={handleEditCard}
+                    onRefresh={fetchServices}
+                  />
+                </div>
               ))}
             </div>
           </div>
         ) : (
-          <div className="text-center py-12">
-            <p className="text-muted-foreground text-lg mb-4">No services yet. Create one to get started!</p>
+          <div className="flex items-center justify-center py-16">
+            <div className="text-center space-y-4 max-w-md">
+              <div className="p-4 bg-accent/10 rounded-full w-16 h-16 mx-auto flex items-center justify-center">
+                <Sparkles className="w-8 h-8 text-accent" />
+              </div>
+              <h3 className="text-lg font-semibold text-foreground">No services yet</h3>
+              <p className="text-muted-foreground text-sm">
+                Create your first service to get started. You can manage multiple travel services and their packages
+                from here.
+              </p>
+            </div>
           </div>
         )}
       </div>

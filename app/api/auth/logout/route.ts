@@ -1,10 +1,19 @@
 import { type NextRequest, NextResponse } from "next/server"
-import { clearAuthCookie } from "@/lib/auth"
 
 export async function POST(request: NextRequest) {
   try {
-    await clearAuthCookie()
-    return NextResponse.json({ success: true })
+    // Create response and clear auth cookie
+    const response = NextResponse.json({ success: true })
+
+    response.cookies.set("auth", "", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      maxAge: 0,
+      path: "/",
+    })
+
+    return response
   } catch (error) {
     return NextResponse.json({ error: "Internal server error" }, { status: 500 })
   }

@@ -6,12 +6,7 @@ import { useState } from "react"
 import { useToast } from "@/hooks/use-toast"
 import { PackageDialog } from "./package-dialog"
 import { PackageCard } from "./package-card"
-import {
-    Accordion,
-    AccordionContent,
-    AccordionItem,
-    AccordionTrigger,
-} from "@/components/ui/accordion"
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import { Button } from "./ui/button"
 
 interface Package {
@@ -85,22 +80,28 @@ export function FeatureCard({
 
     return (
         <div className="space-y-2">
-            {/* Service Card */}
             <div className="relative group">
-                <Card className="p-2 flex flex-row items-start gap-2 bg-card border border-border hover:border-primary/50 transition-colors rounded-lg">
-                    <div className="text-xl shrink-0 pt-1">{icon}</div>
-                    <div className="flex-1 min-w-0">
-                        <h3 className="text-lg font-bold mb-2 text-foreground">{title}</h3>
-                        <p className="text-sm text-muted-foreground my-2">{description}</p>
-                        <ul className="space-y-2">
-                            {bulletPoints.map((point, index) => (
-                                <li key={index} className="flex items-start gap-3">
-                                    <Check className="w-5 h-5 text-primary mt-0.5 shrink-0" />
-                                    <span className="text-sm text-muted-foreground">{point}</span>
-                                </li>
-                            ))}
-                        </ul>
-                        <div className="py-4">
+                <Card className="p-6 flex flex-col lg:flex-row lg:items-start gap-6 bg-card border border-border hover:border-primary/40 hover:shadow-lg transition-all duration-300 rounded-xl overflow-hidden">
+                    <div className="text-4xl shrink-0 p-4 bg-primary/10 rounded-lg h-fit">{icon}</div>
+
+                    <div className="flex-1 min-w-0 space-y-4">
+                        <div>
+                            <h3 className="text-2xl font-bold mb-2 text-foreground">{title}</h3>
+                            <p className="text-base text-muted-foreground leading-relaxed">{description}</p>
+                        </div>
+
+                        {bulletPoints.length > 0 && (
+                            <ul className="space-y-2">
+                                {bulletPoints.map((point, index) => (
+                                    <li key={index} className="flex items-start gap-3">
+                                        <Check className="w-5 h-5 text-primary mt-0.5 shrink-0" />
+                                        <span className="text-sm text-muted-foreground">{point}</span>
+                                    </li>
+                                ))}
+                            </ul>
+                        )}
+
+                        <div className="pt-4 space-y-4">
                             <PackageDialog
                                 serviceId={id as number}
                                 onPackageAdded={onRefresh || (() => { })}
@@ -109,62 +110,67 @@ export function FeatureCard({
                                 editingPackage={packages?.find((p) => p?.id === editingPackageId)}
                                 onEditComplete={handleEditPackageComplete}
                             />
-                        </div>
-                        <div className="w-full">
+
                             <Accordion type="single" collapsible>
                                 <AccordionItem value="item-1">
-                                    <div className="space-y-2">
-                                        <div className="flex items-center justify-between">
-                                            <AccordionTrigger className="p-0 hover:bg-transparent focus:bg-transparent focus:ring-0">
-                                                <Button size={"default"} variant={"outline"} className="text-[16px] font-semibold text-foreground">View {packages.length} Packages</Button>
-                                            </AccordionTrigger>
-                                        </div>
+                                    <div className="space-y-3">
+                                        <AccordionTrigger className="p-0 hover:bg-transparent focus:bg-transparent focus:ring-0">
+                                            <Button
+                                                size={"default"}
+                                                variant={"outline"}
+                                                className="text-base font-semibold text-foreground"
+                                            >
+                                                View {packages.length} Package{packages.length !== 1 ? "s" : ""}
+                                            </Button>
+                                        </AccordionTrigger>
                                         <AccordionContent>
                                             {packages.length > 0 ? (
-                                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 pt-4">
                                                     {packages.map((pkg) => (
-                                                        <PackageCard key={pkg.id} {...pkg} onDelete={handleDeletePackage} onEdit={handleEditPackage} />
+                                                        <PackageCard
+                                                            key={pkg.id}
+                                                            {...pkg}
+                                                            onDelete={handleDeletePackage}
+                                                            onEdit={handleEditPackage}
+                                                        />
                                                     ))}
                                                 </div>
                                             ) : (
-                                                <p className="text-sm text-muted-foreground py-1">No packages yet. Add one to get started!</p>
+                                                <p className="text-sm text-muted-foreground py-4">No packages yet. Add one to get started!</p>
                                             )}
                                         </AccordionContent>
-
-
                                     </div>
                                 </AccordionItem>
                             </Accordion>
                         </div>
                     </div>
                 </Card>
-                {
-                    (onDelete || onEdit) && id !== undefined && (
-                        <div className="absolute top-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                            {onEdit && (
-                                <button
-                                    onClick={() => onEdit(id)}
-                                    className="p-2 bg-primary/80 hover:bg-primary text-primary-foreground rounded-md transition-all"
-                                    aria-label="Edit service"
-                                    title="Edit service"
-                                >
-                                    <Edit className="w-4 h-4" />
-                                </button>
-                            )}
-                            {onDelete && (
-                                <button
-                                    onClick={() => onDelete(id)}
-                                    className="p-2 bg-destructive/80 hover:bg-destructive text-destructive-foreground rounded-md transition-all"
-                                    aria-label="Delete service"
-                                    title="Delete service"
-                                >
-                                    <Trash2 className="w-4 h-4" />
-                                </button>
-                            )}
-                        </div>
-                    )
-                }
-            </div >
-        </div >
+
+                {(onDelete || onEdit) && id !== undefined && (
+                    <div className="absolute top-6 right-6 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                        {onEdit && (
+                            <button
+                                onClick={() => onEdit(id)}
+                                className="p-2.5 bg-primary hover:bg-primary/90 text-primary-foreground rounded-lg transition-all hover:shadow-md active:scale-95"
+                                aria-label="Edit service"
+                                title="Edit service"
+                            >
+                                <Edit className="w-4 h-4" />
+                            </button>
+                        )}
+                        {onDelete && (
+                            <button
+                                onClick={() => onDelete(id)}
+                                className="p-2.5 bg-destructive hover:bg-destructive/90 text-destructive-foreground rounded-lg transition-all hover:shadow-md active:scale-95"
+                                aria-label="Delete service"
+                                title="Delete service"
+                            >
+                                <Trash2 className="w-4 h-4" />
+                            </button>
+                        )}
+                    </div>
+                )}
+            </div>
+        </div>
     )
 }

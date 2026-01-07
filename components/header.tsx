@@ -2,24 +2,21 @@
 
 import { useState, useEffect } from "react"
 import Link from "next/link"
-import { usePathname } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet"
-import { Menu, Plane } from "lucide-react"
+import { LogOut, Menu, Plane } from "lucide-react"
 import { cn } from "@/lib/utils"
 import Image from "next/image"
-
-const navLinks = [
-  { href: "/", label: "Home" },
-  { href: "/about", label: "About Us" },
-  { href: "/services", label: "Services" },
-  { href: "/blog", label: "Blog" },
-]
+import { toast } from "sonner"
 
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
   const pathname = usePathname()
+  const router = useRouter()
+
+  const [userEmail, setUserEmail] = useState<string>("")
 
   useEffect(() => {
     const handleScroll = () => {
@@ -31,6 +28,33 @@ export function Header() {
 
   const isInternalPage = pathname !== "/"
   const showSolidHeader = true // Always show solid background for distinct separation
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const response = await fetch("/api/auth/verify")
+        if (response.ok) {
+          const data = await response.json()
+          setUserEmail(data.email)
+        }
+      } catch (error) {
+        console.error("Failed to fetch user:", error)
+      }
+    }
+    fetchUser()
+  }, [])
+
+  const handleLogout = async () => {
+    try {
+      await fetch("/api/auth/logout", { method: "POST" })
+      toast.success("Logged out successfully")
+      router.push("/admin/login")
+    } catch (error) {
+      toast.error("Logout failed")
+    }
+  }
+
+  console.log({ userEmail })
 
   return (
     <header
@@ -58,50 +82,26 @@ export function Header() {
           </div>
         </Link>
 
-        {/* Desktop Navigation */}
-        <nav className="hidden lg:flex items-center gap-1">
-          {navLinks.map((link) => (
-            <Link
-              prefetch={false}
-              key={link.href}
-              href={link.href}
-              className={cn(
-                "relative px-4 py-2 text-sm font-medium transition-all duration-300 rounded-lg group",
-                "text-foreground/70 hover:text-primary",
-                pathname === link.href && "text-primary bg-primary/5",
-              )}
-            >
-              {link.label}
-              <span
-                className={cn(
-                  "absolute bottom-0 left-1/2 -translate-x-1/2 h-0.5 bg-primary rounded-full transition-all duration-300",
-                  pathname === link.href ? "w-6" : "w-0 group-hover:w-4",
-                )}
-              />
-            </Link>
-          ))}
-        </nav>
-
-        {/* CTA Button */}
-        <div className="hidden lg:flex items-center gap-4">
-          <Button
-            size="lg"
-            className={cn(
-              "relative overflow-hidden rounded-full px-6 lg:px-7 font-semibold",
-              "bg-linear-to-r from-primary to-primary/90",
-              "hover:from-primary/90 hover:to-primary",
-              "text-primary-foreground shadow-lg shadow-primary/25",
-              "hover:shadow-xl hover:shadow-primary/30",
-              "transition-all duration-300 hover:scale-[1.02]",
-            )}
-            asChild
-          >
-            <Link prefetch={false} href="/contact">
-              <span className="relative z-10">Contact Us</span>
-              <div className="absolute inset-0 bg-linear-to-r from-transparent via-card/20 to-transparent -translate-x-full hover:translate-x-full transition-transform duration-700" />
-            </Link>
-          </Button>
+        <div className="flex items-center gap-3 md:gap-4 ml-auto">
+          <span className="text-sm font-medium text-muted-foreground hidden sm:block truncate max-w-xs">
+            {userEmail}
+          </span>
+          {
+            userEmail && (
+              <Button
+                onClick={handleLogout}
+                variant="outline"
+                size="sm"
+                className="gap-2 border-destructive/30 hover:bg-destructive/10 hover:border-destructive/50 text-destructive hover:text-destructive font-medium transition-all bg-transparent"
+                title="Logout"
+              >
+                <LogOut className="w-4 h-4" />
+                <span className="hidden md:inline">Logout</span>
+              </Button>
+            )
+          }
         </div>
+
 
         {/* Mobile Menu */}
         <Sheet open={isOpen} onOpenChange={setIsOpen}>
@@ -132,36 +132,6 @@ export function Header() {
                     Travels & Tours
                   </span>
                 </div>
-              </div>
-              <nav className="flex flex-col gap-0.5 md:gap-1">
-                {navLinks.map((link, index) => (
-                  <Link
-                    prefetch={false}
-                    key={link.href}
-                    href={link.href}
-                    onClick={() => setIsOpen(false)}
-                    className={cn(
-                      "text-foreground text-sm md:text-base font-medium py-3 md:py-3.5 px-3 md:px-4 rounded-lg md:rounded-xl transition-all duration-300",
-                      "hover:bg-linear-to-r hover:from-primary/10 hover:to-transparent",
-                      "animate-fade-in-right",
-                      pathname === link.href &&
-                      "bg-linear-to-r from-primary/15 to-transparent text-primary border-l-2 border-primary",
-                    )}
-                    style={{ animationDelay: `${index * 50}ms` }}
-                  >
-                    {link.label}
-                  </Link>
-                ))}
-              </nav>
-              <div className="mt-auto pt-4 md:pt-6 border-t border-border/50">
-                <Button
-                  className="w-full bg-linear-to-r from-primary to-primary/90 hover:from-primary/90 hover:to-primary text-primary-foreground rounded-lg md:rounded-xl h-11 md:h-12 font-semibold shadow-lg shadow-primary/20"
-                  asChild
-                >
-                  <Link prefetch={false} href="/contact" onClick={() => setIsOpen(false)}>
-                    Contact Us
-                  </Link>
-                </Button>
               </div>
             </div>
           </SheetContent>
