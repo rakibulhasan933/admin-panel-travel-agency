@@ -13,7 +13,6 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
         const body = await request.json();
         if (body.updatedAt) body.updatedAt = new Date(body.updatedAt);
         if (body.createdAt) body.createdAt = new Date(body.createdAt);
-        console.log({ body })
 
         const result = await db
             .update(packages)
@@ -23,7 +22,6 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
 
         return NextResponse.json({ data: result[0] })
     } catch (error) {
-        console.log({ error })
         return NextResponse.json({ error: "Failed to update package" }, { status: 500 })
     }
 }

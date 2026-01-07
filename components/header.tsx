@@ -54,7 +54,6 @@ export function Header() {
     }
   }
 
-  console.log({ userEmail })
 
   return (
     <header
