@@ -46,32 +46,6 @@ export function Footer() {
       <div className="absolute top-0 right-0 w-150 h-150 bg-primary/5 rounded-full blur-[200px]" />
       <div className="absolute bottom-0 left-0 w-400 h-400 bg-sky/5 rounded-full blur-[150px]" />
 
-      {/* Newsletter Section */}
-      <div className="border-b border-white/10 relative">
-        <div className="container mx-auto px-3 md:px-20 py-8 md:py-14">
-          <div className="flex flex-col lg:flex-row items-center justify-between gap-5 md:gap-8">
-            <div className="text-center lg:text-left">
-              <h3 className="text-xl md:text-3xl font-bold mb-2 md:mb-3">
-                Stay Updated with Our <span className="text-primary">Travel Offers</span>
-              </h3>
-              <p className="text-white/60 text-sm md:text-base">
-                Get exclusive travel deals and updates straight to your inbox
-              </p>
-            </div>
-            <div className="flex flex-col sm:flex-row w-full lg:w-auto gap-2 md:gap-3">
-              <Input
-                placeholder="Enter your email"
-                className="bg-white/10 border-white/20 text-white placeholder:text-white/40 h-11 md:h-14 w-full lg:w-80 rounded-full focus:bg-white/15 focus:border-primary transition-all text-sm md:text-base"
-              />
-              <Button className="bg-linear-to-r from-primary to-primary/90 hover:from-primary/90 hover:to-primary text-primary-foreground rounded-full h-11 md:h-14 px-5 md:px-8 shrink-0 font-semibold shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/30 transition-all text-sm md:text-base">
-                Subscribe
-                <ArrowRight className="ml-2 h-3.5 w-3.5 md:h-4 md:w-4" />
-              </Button>
-            </div>
-          </div>
-        </div>
-      </div>
-
       {/* Main Footer */}
       <div className="container mx-auto px-3 md:px-20 py-10 md:py-16 relative">
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12">

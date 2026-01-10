@@ -134,7 +134,7 @@ export default function HeroSliderPage() {
               </div>
               <div>
                 <ImageUpload
-                  label="Image"
+                  label="Image (Recommended size: 1920x1080px) 16:9"
                   onImageUrl={(url) => setFormData({ ...formData, image: url })}
                   preview={formData.image}
                   required

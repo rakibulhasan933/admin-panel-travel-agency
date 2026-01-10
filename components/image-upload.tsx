@@ -29,8 +29,8 @@ export function ImageUpload({ onImageUrl, label = "Upload Image", preview, requi
       return
     }
 
-    if (file.size > 5 * 1024 * 1024) {
-      toast.error("Image must be less than 5MB")
+    if (file.size > 30 * 1024 * 1024) {
+      toast.error("Image must be less than 30MB")
       return
     }
 
@@ -53,6 +53,7 @@ export function ImageUpload({ onImageUrl, label = "Upload Image", preview, requi
       onImageUrl(data.url)
       toast.success("Image uploaded successfully")
     } catch (error) {
+      console.log({ error })
       console.error("Upload error:", error)
       toast.error("Failed to upload image")
     } finally {
