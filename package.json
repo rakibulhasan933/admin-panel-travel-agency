@@ -44,6 +44,7 @@
     "@radix-ui/react-toggle-group": "latest",
     "@radix-ui/react-tooltip": "latest",
     "@react-email/render": "latest",
+    "@uploadthing/react": "^7.3.3",
     "@vercel/analytics": "latest",
     "@vercel/postgres": "latest",
     "autoprefixer": "^10.4.20",
@@ -76,6 +77,7 @@
     "swr": "^2.3.8",
     "tailwind-merge": "^2.5.5",
     "tailwindcss-animate": "^1.0.7",
+    "uploadthing": "^7.7.4",
     "vaul": "latest",
     "zod": "3.25.76"
   },

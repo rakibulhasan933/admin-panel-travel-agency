@@ -1,6 +1,10 @@
 @import 'tailwindcss';
 @import 'tw-animate-css';
 
+@import "uploadthing/tw/v4";
+
+@import "@uploadthing/react/styles.css";
+
 @custom-variant dark (&:is(.dark *));
 
 :root {
@@ -119,6 +123,7 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }
