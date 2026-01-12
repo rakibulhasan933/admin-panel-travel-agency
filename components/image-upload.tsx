@@ -1,13 +1,11 @@
 "use client"
-
-import type React from "react"
 import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Upload, X } from "lucide-react"
+import { X, CheckCircle2 } from "lucide-react"
 import { toast } from "sonner"
 import Image from "next/image"
+import { UploadButton } from "@/lib/uploadthing"
+
 
 interface ImageUploadProps {
   onImageUrl: (url: string) => void
@@ -17,49 +15,8 @@ interface ImageUploadProps {
 }
 
 export function ImageUpload({ onImageUrl, label = "Upload Image", preview, required = false }: ImageUploadProps) {
-  const [uploading, setUploading] = useState(false)
   const [imageUrl, setImageUrl] = useState(preview || "")
-
-  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0]
-    if (!file) return
-
-    if (!file.type.startsWith("image/")) {
-      toast.error("Please select an image file")
-      return
-    }
-
-    if (file.size > 30 * 1024 * 1024) {
-      toast.error("Image must be less than 30MB")
-      return
-    }
-
-    setUploading(true)
-    try {
-      const formData = new FormData()
-      formData.append("file", file)
-
-      const response = await fetch("/api/upload", {
-        method: "POST",
-        body: formData,
-      })
-
-      if (!response.ok) {
-        throw new Error("Upload failed")
-      }
-
-      const data = await response.json()
-      setImageUrl(data.url)
-      onImageUrl(data.url)
-      toast.success("Image uploaded successfully")
-    } catch (error) {
-      console.log({ error })
-      console.error("Upload error:", error)
-      toast.error("Failed to upload image")
-    } finally {
-      setUploading(false)
-    }
-  }
+  const [isUploading, setIsUploading] = useState(false)
 
   return (
     <div className="space-y-3">
@@ -67,37 +24,67 @@ export function ImageUpload({ onImageUrl, label = "Upload Image", preview, requi
         {label} {required && <span className="text-red-500">*</span>}
       </Label>
       {imageUrl && (
-        <div className="relative w-full h-48 bg-gray-100 rounded-lg overflow-hidden">
-          <Image src={imageUrl || "/placeholder.svg"} alt="Preview" fill className="object-cover" />
+        <div className="relative w-full h-48 bg-linear-to-br from-slate-100 to-slate-200 rounded-lg overflow-hidden group border border-slate-200">
+          <Image
+            src={imageUrl || "/placeholder.svg"}
+            alt="Preview"
+            fill
+            className="object-cover group-hover:scale-105 transition-transform duration-300"
+          />
+          {/* Success indicator badge */}
+          <div className="absolute bottom-2 left-2 flex items-center gap-2 bg-white/90 backdrop-blur-sm px-2 py-1 rounded text-xs font-medium text-green-600">
+            <CheckCircle2 className="w-4 h-4" />
+            Uploaded
+          </div>
+          {/* Delete button */}
           <button
             type="button"
             onClick={() => {
               setImageUrl("")
               onImageUrl("")
+              toast.success("Image removed")
             }}
-            className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600"
+            className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-2 hover:bg-red-600 transition-all duration-200 shadow-lg hover:shadow-xl"
           >
             <X className="w-4 h-4" />
           </button>
         </div>
       )}
-      <div className="flex gap-2">
-        <label className="flex-1">
-          <Input type="file" accept="image/*" onChange={handleFileChange} disabled={uploading} className="hidden" />
-          <Button
-            type="button"
-            variant="outline"
-            className="w-full cursor-pointer bg-transparent"
-            disabled={uploading}
-            onClick={(e) => {
-              e.currentTarget.parentElement?.querySelector("input")?.click()
+      {!imageUrl && (
+        <div className="border-2 border-dashed border-slate-300 rounded-lg p-6 text-center hover:border-slate-400 transition-colors bg-slate-50">
+          <UploadButton
+            endpoint="imageUploader"
+            onUploadBegin={() => {
+              setIsUploading(true)
             }}
-          >
-            <Upload className="w-4 h-4 mr-2" />
-            {uploading ? "Uploading..." : "Choose Image"}
-          </Button>
-        </label>
-      </div>
+            onClientUploadComplete={(res) => {
+              if (res && res.length > 0) {
+                const uploadedUrl = res[0].url
+                setImageUrl(uploadedUrl)
+                onImageUrl(uploadedUrl)
+                setIsUploading(false)
+                toast.success("Image uploaded successfully!", {
+                  description: "Your image is ready to use.",
+                })
+              }
+            }}
+            onUploadError={(error: Error) => {
+              console.error("Upload error:", error)
+              setIsUploading(false)
+              toast.error(`Upload failed: ${error.message}`)
+            }}
+            content={{
+              button: isUploading ? "Uploading..." : "Click to upload or drag and drop",
+              allowedContent: "PNG, JPG, GIF (max 64MB)",
+            }}
+            appearance={{
+              button:
+                "ut-ready:bg-green-500 ut-uploading:cursor-not-allowed rounded-r-none bg-blue-500 bg-none after:bg-orange-400",
+
+            }}
+          />
+        </div>
+      )}
     </div>
   )
 }
