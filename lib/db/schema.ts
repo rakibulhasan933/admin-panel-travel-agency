@@ -32,6 +32,7 @@ export const services = pgTable("services", {
   title: text("title").notNull(),
   description: text("description").notNull(),
   bulletPoints: jsonb("bulletPoints").notNull().default([]),
+  color: text("color").notNull().default("blue"),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
 });
