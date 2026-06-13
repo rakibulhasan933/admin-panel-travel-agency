@@ -48,31 +48,37 @@ CREATE TABLE "hero_sliders" (
 	"updated_at" timestamp DEFAULT now()
 );
 --> statement-breakpoint
+CREATE TABLE "metadata" (
+	"id" serial PRIMARY KEY NOT NULL,
+	"site_url" text,
+	"title_default" text,
+	"title_template" text,
+	"description" text,
+	"site_name" text,
+	"logo_url" text,
+	"og_title" text,
+	"og_description" text,
+	"og_image_url" text,
+	"twitter_title" text,
+	"twitter_description" text,
+	"canonical_url" text,
+	"category" text,
+	"creator" text,
+	"publisher" text,
+	"keywords" json DEFAULT '[]'::json,
+	"created_at" timestamp DEFAULT now(),
+	"updated_at" timestamp DEFAULT now()
+);
+--> statement-breakpoint
 CREATE TABLE "packages" (
 	"id" serial PRIMARY KEY NOT NULL,
 	"service_id" integer NOT NULL,
-	"title" text NOT NULL,
+	"name" text NOT NULL,
 	"description" text NOT NULL,
 	"image" text NOT NULL,
 	"bulletPoints" jsonb DEFAULT '[]'::jsonb NOT NULL,
 	"created_at" timestamp DEFAULT now(),
 	"updated_at" timestamp DEFAULT now()
-);
---> statement-breakpoint
-CREATE TABLE "seo_pages" (
-	"id" serial PRIMARY KEY NOT NULL,
-	"page_path" varchar(255) NOT NULL,
-	"page_title" varchar(255) NOT NULL,
-	"meta_description" varchar(160),
-	"keywords" varchar(500),
-	"og_title" varchar(255),
-	"og_description" varchar(160),
-	"og_image" varchar(500),
-	"canonical_url" varchar(500),
-	"schema" json,
-	"created_at" timestamp DEFAULT now(),
-	"updated_at" timestamp DEFAULT now(),
-	CONSTRAINT "seo_pages_page_path_unique" UNIQUE("page_path")
 );
 --> statement-breakpoint
 CREATE TABLE "services" (
@@ -82,6 +88,7 @@ CREATE TABLE "services" (
 	"title" text NOT NULL,
 	"description" text NOT NULL,
 	"bulletPoints" jsonb DEFAULT '[]'::jsonb NOT NULL,
+	"color" text DEFAULT 'blue' NOT NULL,
 	"created_at" timestamp DEFAULT now(),
 	"updated_at" timestamp DEFAULT now(),
 	CONSTRAINT "services_url_unique" UNIQUE("url")

@@ -1,1 +1,0 @@
-ALTER TABLE "services" ADD COLUMN "color" text DEFAULT 'blue' NOT NULL;
