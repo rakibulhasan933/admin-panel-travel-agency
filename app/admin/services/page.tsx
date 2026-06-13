@@ -35,7 +35,8 @@ export default function ServicesPage() {
     try {
       setLoading(true)
       const response = await fetch("/api/admin/services")
-      if (!response.ok) throw new Error("Failed to fetch services")
+      console.log({response})
+      // if (!response.ok) throw new Error("Failed to fetch services")
       const data = await response.json()
       setCards(data.data)
     } catch (error) {

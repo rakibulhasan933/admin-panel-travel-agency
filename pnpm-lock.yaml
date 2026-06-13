@@ -121,7 +121,7 @@ importers:
         version: 4.1.0
       drizzle-orm:
         specifier: ^0.45.2
-        version: 0.45.2(@aws-sdk/client-rds-data@3.962.0)(@cloudflare/workers-types@4.20260103.0)(@electric-sql/pglite@0.3.14)(@libsql/client-wasm@0.15.15)(@libsql/client@0.15.15(bufferutil@4.1.0))(@neondatabase/serverless@1.0.2)(@opentelemetry/api@1.9.0)(@planetscale/database@1.19.0)(@prisma/client@7.2.0(typescript@5.9.3))(@tidbcloud/serverless@0.2.0)(@types/better-sqlite3@7.6.13)(@types/pg@8.16.0)(@types/sql.js@1.4.9)(@upstash/redis@1.36.0)(@vercel/postgres@0.10.0)(@xata.io/client@0.30.1(typescript@5.9.3))(better-sqlite3@12.5.0)(bun-types@1.3.5)(expo-sqlite@16.0.10(expo@54.0.30(@babel/core@7.28.5)(bufferutil@4.1.0)(react-native@0.83.1(@babel/core@7.28.5)(@types/react@19.2.7)(bufferutil@4.1.0)(react@19.2.0))(react@19.2.0))(react-native@0.83.1(@babel/core@7.28.5)(@types/react@19.2.7)(bufferutil@4.1.0)(react@19.2.0))(react@19.2.0))(gel@2.2.0)(knex@3.1.0(better-sqlite3@12.5.0)(mysql2@3.16.0)(pg@8.16.3)(sqlite3@5.1.7))(kysely@0.28.9)(mysql2@3.16.0)(pg@8.16.3)(postgres@3.4.9)(sql.js@1.13.0)(sqlite3@5.1.7)
+        version: 0.45.2(@aws-sdk/client-rds-data@3.962.0)(@cloudflare/workers-types@4.20260103.0)(@electric-sql/pglite@0.3.14)(@libsql/client-wasm@0.15.15)(@libsql/client@0.15.15(bufferutil@4.1.0))(@neondatabase/serverless@1.0.2)(@opentelemetry/api@1.9.0)(@planetscale/database@1.19.0)(@prisma/client@7.2.0(typescript@5.9.3))(@tidbcloud/serverless@0.2.0)(@types/better-sqlite3@7.6.13)(@types/pg@8.16.0)(@types/sql.js@1.4.9)(@upstash/redis@1.36.0)(@vercel/postgres@0.10.0)(@xata.io/client@0.30.1(typescript@5.9.3))(better-sqlite3@12.5.0)(bun-types@1.3.5)(expo-sqlite@16.0.10(expo@54.0.30(@babel/core@7.28.5)(bufferutil@4.1.0)(react-native@0.83.1(@babel/core@7.28.5)(@types/react@19.2.7)(bufferutil@4.1.0)(react@19.2.0))(react@19.2.0))(react-native@0.83.1(@babel/core@7.28.5)(@types/react@19.2.7)(bufferutil@4.1.0)(react@19.2.0))(react@19.2.0))(gel@2.2.0)(knex@3.1.0(better-sqlite3@12.5.0)(mysql2@3.16.0)(pg@8.21.0)(sqlite3@5.1.7))(kysely@0.28.9)(mysql2@3.16.0)(pg@8.21.0)(postgres@3.4.9)(sql.js@1.13.0)(sqlite3@5.1.7)
       embla-carousel-react:
         specifier: latest
         version: 8.6.0(react@19.2.0)
@@ -146,6 +146,9 @@ importers:
       nodemailer:
         specifier: latest
         version: 7.0.12
+      pg:
+        specifier: ^8.21.0
+        version: 8.21.0
       postgres:
         specifier: ^3.4.9
         version: 3.4.9
@@ -4991,14 +4994,14 @@ packages:
   peberminta@0.9.0:
     resolution: {integrity: sha512-XIxfHpEuSJbITd1H3EeQwpcZbTLHc+VVr8ANI9t5sit565tsI4/xK3KWTUFE2e6QiangUkh3B0jihzmGnNrRsQ==}
 
-  pg-cloudflare@1.2.7:
-    resolution: {integrity: sha512-YgCtzMH0ptvZJslLM1ffsY4EuGaU0cx4XSdXLRFae8bPP4dS5xL1tNB3k2o/N64cHJpwU7dxKli/nZ2lUa5fLg==}
+  pg-cloudflare@1.4.0:
+    resolution: {integrity: sha512-Vo7z/6rrQYxpNRylp4Tlob2elzbh+N/MOQbxFVWCxS7oEx6jF53GTJFxK2WWpKuBRkmiin4Mt+xofFDjx09R0A==}
+
+  pg-connection-string@2.13.0:
+    resolution: {integrity: sha512-EMnU9E2fSULdsbErBbMaXJvFeD9B4+nPcM3f+4lsiCR0BHLPrLVjv3DbyM2hgQQviKJaTWIRRTjKjWlHg3p2ig==}
 
   pg-connection-string@2.6.2:
     resolution: {integrity: sha512-ch6OwaeaPYcova4kKZ15sbJ2hKb/VP48ZD2gE7i1J+L4MspCtBMAx8nMgz7bksc7IojCIIWuEhHibSMFH8m8oA==}
-
-  pg-connection-string@2.9.1:
-    resolution: {integrity: sha512-nkc6NpDcvPVpZXxrreI/FOtX3XemeLl8E0qFr6F2Lrm/I8WOnaWNhIPK2Z7OHpw7gh5XJThi6j6ppgNoaT1w4w==}
 
   pg-int8@1.0.1:
     resolution: {integrity: sha512-WCtabS6t3c8SkpDBUlb1kjOs7l66xsGdKpIPZsg4wR+B3+u9UAum2odSsF9tnvxg80h4ZxLWMy4pRjOsFIqQpw==}
@@ -5008,13 +5011,16 @@ packages:
     resolution: {integrity: sha512-BM/Thnrw5jm2kKLE5uJkXqqExRUY/toLHda65XgFTBTFYZyopbKjBe29Ii3RbkvlsMoFwD+tHeGaCjjv0gHlyw==}
     engines: {node: '>=4'}
 
-  pg-pool@3.10.1:
-    resolution: {integrity: sha512-Tu8jMlcX+9d8+QVzKIvM/uJtp07PKr82IUOYEphaWcoBhIYkoHpLXN3qO59nAI11ripznDsEzEv8nUxBVWajGg==}
+  pg-pool@3.14.0:
+    resolution: {integrity: sha512-gKtPkFdQPU3DksooVLi9LsjZxrsBUZIpa+7aVx+LV5pNh0KzP4Zleud2po+ConrxbuXGBJ6Hfer6hdgpIBpBaw==}
     peerDependencies:
       pg: '>=8.0'
 
   pg-protocol@1.10.3:
     resolution: {integrity: sha512-6DIBgBQaTKDJyxnXaLiLR8wBpQQcGWuAESkRBX/t6OwA8YsqP+iVSiond2EDy6Y/dsGk8rh/jtax3js5NeV7JQ==}
+
+  pg-protocol@1.14.0:
+    resolution: {integrity: sha512-n5taZ1kO3s9ngDTVxsEznOqCyToTgz0FLuPq0B33COy5pPpuWJpY3/2oRBVETuOgzdqRXfWpM9HIhp2LBBT1BA==}
 
   pg-types@2.2.0:
     resolution: {integrity: sha512-qTAAlrEsl8s4OiEQY69wDvcMIdQN6wdz5ojQiOy6YRMuynxenON0O5oCpJI6lshc6scgAY8qvJ2On/p+CXY0GA==}
@@ -5024,8 +5030,8 @@ packages:
     resolution: {integrity: sha512-o2XFanIMy/3+mThw69O8d4n1E5zsLhdO+OPqswezu7Z5ekP4hYDqlDjlmOpYMbzY2Br0ufCwJLdDIXeNVwcWFg==}
     engines: {node: '>=10'}
 
-  pg@8.16.3:
-    resolution: {integrity: sha512-enxc1h0jA/aq5oSDMvqyW3q89ra6XIIDZgCX9vkMrnz5DFTw/Ny3Li2lFQ+pt3L6MCgm/5o2o8HW9hiJji+xvw==}
+  pg@8.21.0:
+    resolution: {integrity: sha512-AUP1EYJuHraQGsVoCQVIcM7TEJVGtDzxWtGFZd8rds9d+CCXlU5Js1rYgfLNvxy9iJrpHjGrRjoi/3BT9fRyiA==}
     engines: {node: '>= 16.0.0'}
     peerDependencies:
       pg-native: '>=3.0.1'
@@ -10324,7 +10330,7 @@ snapshots:
       esbuild: 0.25.12
       tsx: 4.21.0
 
-  drizzle-orm@0.45.2(@aws-sdk/client-rds-data@3.962.0)(@cloudflare/workers-types@4.20260103.0)(@electric-sql/pglite@0.3.14)(@libsql/client-wasm@0.15.15)(@libsql/client@0.15.15(bufferutil@4.1.0))(@neondatabase/serverless@1.0.2)(@opentelemetry/api@1.9.0)(@planetscale/database@1.19.0)(@prisma/client@7.2.0(typescript@5.9.3))(@tidbcloud/serverless@0.2.0)(@types/better-sqlite3@7.6.13)(@types/pg@8.16.0)(@types/sql.js@1.4.9)(@upstash/redis@1.36.0)(@vercel/postgres@0.10.0)(@xata.io/client@0.30.1(typescript@5.9.3))(better-sqlite3@12.5.0)(bun-types@1.3.5)(expo-sqlite@16.0.10(expo@54.0.30(@babel/core@7.28.5)(bufferutil@4.1.0)(react-native@0.83.1(@babel/core@7.28.5)(@types/react@19.2.7)(bufferutil@4.1.0)(react@19.2.0))(react@19.2.0))(react-native@0.83.1(@babel/core@7.28.5)(@types/react@19.2.7)(bufferutil@4.1.0)(react@19.2.0))(react@19.2.0))(gel@2.2.0)(knex@3.1.0(better-sqlite3@12.5.0)(mysql2@3.16.0)(pg@8.16.3)(sqlite3@5.1.7))(kysely@0.28.9)(mysql2@3.16.0)(pg@8.16.3)(postgres@3.4.9)(sql.js@1.13.0)(sqlite3@5.1.7):
+  drizzle-orm@0.45.2(@aws-sdk/client-rds-data@3.962.0)(@cloudflare/workers-types@4.20260103.0)(@electric-sql/pglite@0.3.14)(@libsql/client-wasm@0.15.15)(@libsql/client@0.15.15(bufferutil@4.1.0))(@neondatabase/serverless@1.0.2)(@opentelemetry/api@1.9.0)(@planetscale/database@1.19.0)(@prisma/client@7.2.0(typescript@5.9.3))(@tidbcloud/serverless@0.2.0)(@types/better-sqlite3@7.6.13)(@types/pg@8.16.0)(@types/sql.js@1.4.9)(@upstash/redis@1.36.0)(@vercel/postgres@0.10.0)(@xata.io/client@0.30.1(typescript@5.9.3))(better-sqlite3@12.5.0)(bun-types@1.3.5)(expo-sqlite@16.0.10(expo@54.0.30(@babel/core@7.28.5)(bufferutil@4.1.0)(react-native@0.83.1(@babel/core@7.28.5)(@types/react@19.2.7)(bufferutil@4.1.0)(react@19.2.0))(react@19.2.0))(react-native@0.83.1(@babel/core@7.28.5)(@types/react@19.2.7)(bufferutil@4.1.0)(react@19.2.0))(react@19.2.0))(gel@2.2.0)(knex@3.1.0(better-sqlite3@12.5.0)(mysql2@3.16.0)(pg@8.21.0)(sqlite3@5.1.7))(kysely@0.28.9)(mysql2@3.16.0)(pg@8.21.0)(postgres@3.4.9)(sql.js@1.13.0)(sqlite3@5.1.7):
     optionalDependencies:
       '@aws-sdk/client-rds-data': 3.962.0
       '@cloudflare/workers-types': 4.20260103.0
@@ -10346,10 +10352,10 @@ snapshots:
       bun-types: 1.3.5
       expo-sqlite: 16.0.10(expo@54.0.30(@babel/core@7.28.5)(bufferutil@4.1.0)(react-native@0.83.1(@babel/core@7.28.5)(@types/react@19.2.7)(bufferutil@4.1.0)(react@19.2.0))(react@19.2.0))(react-native@0.83.1(@babel/core@7.28.5)(@types/react@19.2.7)(bufferutil@4.1.0)(react@19.2.0))(react@19.2.0)
       gel: 2.2.0
-      knex: 3.1.0(better-sqlite3@12.5.0)(mysql2@3.16.0)(pg@8.16.3)(sqlite3@5.1.7)
+      knex: 3.1.0(better-sqlite3@12.5.0)(mysql2@3.16.0)(pg@8.21.0)(sqlite3@5.1.7)
       kysely: 0.28.9
       mysql2: 3.16.0
-      pg: 8.16.3
+      pg: 8.21.0
       postgres: 3.4.9
       sql.js: 1.13.0
       sqlite3: 5.1.7
@@ -11151,7 +11157,7 @@ snapshots:
   kleur@3.0.3:
     optional: true
 
-  knex@3.1.0(better-sqlite3@12.5.0)(mysql2@3.16.0)(pg@8.16.3)(sqlite3@5.1.7):
+  knex@3.1.0(better-sqlite3@12.5.0)(mysql2@3.16.0)(pg@8.21.0)(sqlite3@5.1.7):
     dependencies:
       colorette: 2.0.19
       commander: 10.0.1
@@ -11170,7 +11176,7 @@ snapshots:
     optionalDependencies:
       better-sqlite3: 12.5.0
       mysql2: 3.16.0
-      pg: 8.16.3
+      pg: 8.21.0
       sqlite3: 5.1.7
     transitivePeerDependencies:
       - supports-color
@@ -11943,25 +11949,25 @@ snapshots:
   peberminta@0.9.0:
     optional: true
 
-  pg-cloudflare@1.2.7:
+  pg-cloudflare@1.4.0:
     optional: true
+
+  pg-connection-string@2.13.0: {}
 
   pg-connection-string@2.6.2:
-    optional: true
-
-  pg-connection-string@2.9.1:
     optional: true
 
   pg-int8@1.0.1: {}
 
   pg-numeric@1.0.2: {}
 
-  pg-pool@3.10.1(pg@8.16.3):
+  pg-pool@3.14.0(pg@8.21.0):
     dependencies:
-      pg: 8.16.3
-    optional: true
+      pg: 8.21.0
 
   pg-protocol@1.10.3: {}
+
+  pg-protocol@1.14.0: {}
 
   pg-types@2.2.0:
     dependencies:
@@ -11970,7 +11976,6 @@ snapshots:
       postgres-bytea: 1.0.1
       postgres-date: 1.0.7
       postgres-interval: 1.2.0
-    optional: true
 
   pg-types@4.1.0:
     dependencies:
@@ -11982,21 +11987,19 @@ snapshots:
       postgres-interval: 3.0.0
       postgres-range: 1.1.4
 
-  pg@8.16.3:
+  pg@8.21.0:
     dependencies:
-      pg-connection-string: 2.9.1
-      pg-pool: 3.10.1(pg@8.16.3)
-      pg-protocol: 1.10.3
+      pg-connection-string: 2.13.0
+      pg-pool: 3.14.0(pg@8.21.0)
+      pg-protocol: 1.14.0
       pg-types: 2.2.0
       pgpass: 1.0.5
     optionalDependencies:
-      pg-cloudflare: 1.2.7
-    optional: true
+      pg-cloudflare: 1.4.0
 
   pgpass@1.0.5:
     dependencies:
       split2: 4.2.0
-    optional: true
 
   picocolors@1.1.1: {}
 
@@ -12043,27 +12046,23 @@ snapshots:
       picocolors: 1.1.1
       source-map-js: 1.2.1
 
-  postgres-array@2.0.0:
-    optional: true
+  postgres-array@2.0.0: {}
 
   postgres-array@3.0.4: {}
 
-  postgres-bytea@1.0.1:
-    optional: true
+  postgres-bytea@1.0.1: {}
 
   postgres-bytea@3.0.0:
     dependencies:
       obuf: 1.1.2
 
-  postgres-date@1.0.7:
-    optional: true
+  postgres-date@1.0.7: {}
 
   postgres-date@2.1.0: {}
 
   postgres-interval@1.2.0:
     dependencies:
       xtend: 4.0.2
-    optional: true
 
   postgres-interval@3.0.0: {}
 
@@ -12594,8 +12593,7 @@ snapshots:
 
   source-map@0.6.1: {}
 
-  split2@4.2.0:
-    optional: true
+  split2@4.2.0: {}
 
   sprintf-js@1.0.3:
     optional: true
@@ -13094,8 +13092,7 @@ snapshots:
   xmlbuilder@15.1.1:
     optional: true
 
-  xtend@4.0.2:
-    optional: true
+  xtend@4.0.2: {}
 
   y18n@5.0.8:
     optional: true

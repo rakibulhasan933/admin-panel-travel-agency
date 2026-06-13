@@ -10,7 +10,6 @@ import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Send, CheckCircle, Loader2 } from "lucide-react"
 import { useIsMobile } from "./ui/use-mobile"
-import { trackContactFormSubmission } from "@/lib/meta-pixel"
 
 const SERVICES = [
   { value: "tour-planning", label: "Tour Planning" },
@@ -55,15 +54,6 @@ export function ContactForm() {
       const result = await response.json()
 
       if (result.success) {
-        trackContactFormSubmission({
-          name: data.name,
-          email: data.email,
-          phone: data.phone,
-          service: data.service,
-          message: data.message,
-          pageName: "ContactPage",
-        })
-
         setIsSuccess(true)
           ; (e.target as HTMLFormElement).reset()
         setSelectedService("")
