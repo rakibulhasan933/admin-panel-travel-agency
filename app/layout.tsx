@@ -1,7 +1,6 @@
 import type React from "react"
 import type { Metadata, Viewport } from "next"
 import { Poppins } from "next/font/google"
-import { Analytics } from "@vercel/analytics/next"
 import "./globals.css"
 import { ScrollToTop } from "@/components/scroll-to-top"
 import { Footer } from "@/components/footer"
@@ -117,7 +116,6 @@ export default function RootLayout({
 
         <Header />
         {children}
-        <Analytics />
         <Footer />
         <ScrollToTop />
       </body>
