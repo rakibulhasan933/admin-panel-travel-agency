@@ -43,8 +43,6 @@
     "@radix-ui/react-toggle-group": "latest",
     "@radix-ui/react-tooltip": "latest",
     "@uploadthing/react": "^7.3.3",
-    "@vercel/analytics": "latest",
-    "@vercel/postgres": "latest",
     "autoprefixer": "^10.4.20",
     "bcryptjs": "^3.0.3",
     "class-variance-authority": "^0.7.1",
