@@ -9,6 +9,7 @@ export async function GET(request: NextRequest) {
     const data = await db.select().from(faqs).orderBy(desc(faqs.createdAt))
     return NextResponse.json({ data })
   } catch (error) {
+    console.log({error});
     return NextResponse.json({ error: "Failed to fetch FAQs" }, { status: 500 })
   }
 }
